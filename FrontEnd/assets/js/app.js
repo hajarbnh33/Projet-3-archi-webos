@@ -29,6 +29,10 @@ function displayWorks(works) {
         </figure>
         */
         const figure = document.createElement("figure");
+        figure.classList.add("projet");
+        figure.classList.add(
+            work.category.name.split(" & ").join("_").toLowerCase()
+        ); //on ajoute une classe en fonction de sa catégorie
         const img = document.createElement("img");
         img.src = work.imageUrl;
         img.alt = work.title;
@@ -41,76 +45,52 @@ function displayWorks(works) {
     }
 }
 
-// créer les boutons filtres
-/* 
-    <section id="portfolio">
-    <h2>Mes Projets</h2>
-    <div class="gallery"></div>
-    </section>
-*/
-//Je récupère mon élément du fichier HTML
-
-/*let classButton = document.querySelector(".buttonFilter");
-
-//J'indique le contenu de mes boutons
-let contenuFirstButton = "Tous";
-let contenuSecondButton = "Objets";
-let contenuThirdButton = "Appartements";
-let contenuFourthButton = "Hôtels & restaurants";
-
-// Je vais créer mes boutons filtres
-let firstButton = document.createElement("button");
-classButton.appendChild(firstButton);
-
-let secondButton = document.createElement("button");
-classButton.appendChild(secondButton);
-
-let thirdButton = document.createElement("button");
-classButton.appendChild(thirdButton);
-
-let fourthButton = document.createElement("button");
-classButton.appendChild(fourthButton);
-
-//J'ajoute le contenu aux boutons
-firstButton.textContent = contenuFirstButton;
-secondButton.textContent = contenuSecondButton;
-thirdButton.textContent = contenuThirdButton;
-fourthButton.textContent = contenuFourthButton;
-
-//La possibilité de filtrer la galerie par catégorie de projet
-
-//je récupère tous mes boutons
-let filters = document.querySelectorAll(".buttonFilter button");
-console.log(filters);
-
-//Boucle for of pour parcourir ma liste de filtre
-for (let filterButton of filters) {
-    filterButton.addEventListener("click", function () {
-        console.log("vous avez cliqué");
-    });
-}
-*/
+//J'appel API pour récupérer les catégories
 
 async function initFilter() {
     let responseFilter = await fetch("http://localhost:5678/api/categories");
     let filters = await responseFilter.json();
     displayFilters(filters);
-    console.log(filters);
 }
 initFilter();
 
 function displayFilters(filters) {
-    console.log(filters);
     const containerFilter = document.querySelector(".buttonFilter");
     for (let filter of filters) {
-        console.log(filter);
         //je crée mes balises boutons
         const button = document.createElement("button");
         containerFilter.appendChild(button);
         //j'ajoute une class à chacun de mes filtres
         const containerButton = document.querySelector("button");
         button.classList.add("filtres");
+        button.classList.add(filter.name.split(" & ").join("_").toLowerCase());
         //j'ajoute le texte dans mes filtres
-        button.innerText = filter.name;
+        button.innerText = filter.name; // j'ajoute le nom de mes catégories dynamiquement
     }
+    console.log(filters);
+    const buttonFilters = document.querySelectorAll(".filtres");
+    buttonFilters.forEach((btn) => {
+        //parcours les élements du tableau button pour y appliquer la fonction
+        btn.addEventListener("click", function () {
+            const projet = document.querySelectorAll(".projet"); //on récupère les élements ayant la class "projet"
+            projet.forEach((img) => {
+                //pour chacun de ces elements on lui applique la class none (voir css)
+                img.classList.add("none"); //images masquées
+            });
+
+            const categorySelected = "." + this.classList[1]; // [1] correspond à la 2è class du tableau des boutons, this ici fait référence au bouton sur le quelle on clique
+
+            const projetSelected = document.querySelectorAll(categorySelected);
+
+            if (categorySelected == ".tous") {
+                projet.forEach((img) => {
+                    img.classList.remove("none"); //afficher tous les projets en supprimant la class none à tous les projets
+                });
+            } else {
+                projetSelected.forEach((img) => {
+                    img.classList.remove("none"); //supprimer la class none aux projets selectionnés (deuxième class selectionnées)
+                });
+            }
+        });
+    });
 }
