@@ -285,6 +285,6 @@ footer nav ul {
     margin: 2em;
 }
 
-.none{
-	display: none;
+.none {
+    display: none; /*correspond aux class des projets*/
 }
