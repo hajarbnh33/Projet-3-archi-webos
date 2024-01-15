@@ -129,7 +129,7 @@ table {
 }
 /** end reset css**/
 .mainContainer {
-   max-width: 1440px;
+    max-width: 1440px;
     margin: auto;
     font-family: "Work Sans";
     font-size: 14px;
@@ -139,7 +139,6 @@ header {
     justify-content: space-between;
     margin: 50px 0;
 }
-
 
 section {
     margin: 50px 0;
@@ -176,7 +175,7 @@ nav li {
     font-size: 1.2em;
 }
 
-li img{
+li img {
     height: 22px;
     width: 22px;
 }
@@ -305,7 +304,7 @@ li a {
     color: black;
 }
 
-.containerConnexion{
+.containerConnexion {
     width: 50%;
     margin: auto;
 }
@@ -332,17 +331,16 @@ li a {
     margin: 2em 0 1em 0;
 }
 
-.lienMdp a{
+.lienMdp a {
     color: black;
     text-decoration: none;
     border-bottom: 1px #000000 solid;
 }
 
-#login_error{
+#login_error {
     color: red;
     padding-bottom: 20px;
     align-self: center;
-
 }
 
 .none {
@@ -351,7 +349,7 @@ li a {
 
 /*connexion */
 
-.bandeau{
+.bandeau {
     display: flex;
     justify-content: center;
     background-color: #000000;
@@ -364,13 +362,13 @@ button .fa-regular {
     width: 15px;
 }
 
-.buttonEdition{
+.buttonEdition {
     display: flex;
     flex-direction: row;
     border: none;
     align-items: center;
     background-color: transparent;
-    gap: 10px ;
+    gap: 10px;
     cursor: pointer;
 }
 
@@ -383,14 +381,16 @@ button .fa-regular {
     line-height: normal;
 }
 
-.projetButton{
+/*bouton modifier*/
+
+.projetButton {
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 20px;
 }
 
-.buttonProjet{
+.buttonProjet {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -398,66 +398,132 @@ button .fa-regular {
     cursor: pointer;
 }
 
-.fa-pen-to-square{
+.fa-pen-to-square {
     color: #000000;
 }
 
-.overlay{
-    position: absolute;
+/*modal*/
+
+.overlay {
+    position: fixed;
     background: #333333d3;
     width: 100%;
     height: 100%;
 }
 
-.modal{
+.modal {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: column;
-    width: 95%;
-    max-width: 600px;
-    height: 300px;
+    width: 500px;
+    height: 600px;
     background: #fff;
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     padding: 10px;
-    border-radius: 5px;
-    
+    border-radius: 10px;
 }
 
-.closeBtn{
-    position:absolute;
-    top:10px;
+.modalContainer {
+    /*display:none*/
+    visibility: hidden;
+    transition: visibility 0.4s;
+}
+
+.modalContainer.active {
+    /*display: block;*/
+    transition: visibility 0s;
+    visibility: visible;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 10px;
     right: 20px;
     cursor: pointer;
 }
 
-.titreGalery{
+.titreGalery {
     align-self: center;
     font-family: "Work Sans";
     font-size: 26px;
     padding-top: 30px;
     font-weight: 400;
     line-height: normal;
-
 }
 
-.modal button{
+.modal button {
     width: 237px;
     height: 36px;
     border-radius: 60px;
     background: #1d6154;
     align-self: center;
-    border:none;
-    color:white;
+    border: none;
+    color: white;
     font-family: "Syne";
     font-weight: 700;
     line-height: normal;
     font-size: 14px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
-.cache{
+/*images modal*/
+
+.worksModal {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 400px;
+}
+
+.projet_modal img {
+    height: 100px;
+    padding-top: 10px;
+    z-index: 1;
+    padding: 0px;
+}
+
+hr {
+    width: 420px;
+    position: relative;
+    border: none;
+    background: #b3b3b3;
+    height: 2px;
+}
+
+/*icone delete*/
+
+.icon_delete {
+    display: flex;
+    height: 17px;
+    width: 17px;
+    background: #000000;
+    border-radius: 3px;
+    justify-content: center;
+    z-index: 2;
+    position: relative;
+    top: -100px;
+    left: 55px;
+    cursor: pointer;
+}
+
+.fa-trash-can {
+    color: white;
+    font-size: 11px;
+    padding: 0px;
+    margin: 0px;
+    align-self: center;
+}
+
+.projet_modal {
+    margin-bottom: -5px;
+}
+
+.cache {
     display: none;
 }

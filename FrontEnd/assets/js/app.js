@@ -8,6 +8,7 @@ async function init() {
     let response = await fetch("http://localhost:5678/api/works");
     let works = await response.json();
     displayWorks(works);
+    worksModalFunction(works);
 }
 init();
 
@@ -23,8 +24,7 @@ function displayWorks(works) {
         //on ajoute en dataset l'id de la catégorie
         figure.dataset.categoryId = work.category.id; // on récupère la categorie de l'id de chaque catégorie + on ajoute une dataset
         const img = document.createElement("img");
-        //img.src = work.imageUrl;
-        img.src = "https://placehold.co/600x800";
+        img.src = work.imageUrl;
         img.alt = work.title;
         figure.appendChild(img);
         const figcaption = document.createElement("figcaption");
@@ -106,6 +106,9 @@ if (token) {
     const icon = document.querySelector(".fa-regular");
     icon.classList.remove("cache");
 
+    const buttonProjet = document.querySelector(".buttonProjet")
+    buttonProjet.classList.remove("cache")
+
     const element = document.createElement("p");
     element.textContent = "Mode édition";
     buttonEdition.appendChild(element);
@@ -113,11 +116,34 @@ if (token) {
     const buttonFilter = document.querySelector(".buttonFilter");
     buttonFilter.classList.add("cache");
 
-    const buttonProjet = document.querySelector(".buttonProjet");
-    buttonProjet.classList.remove("cache");
-    //création boite dialogue
-    buttonProjet.addEventListener("click", function () {
-        const modalContainer = document.querySelector(".modalContainer");
-        modalContainer.classList.remove("cache");
-    });
+    const modalContainer = document.querySelector(".modalContainer");
+    const modalTriggers = document.querySelectorAll(".modal-trigger");
+    modalTriggers.forEach((trigger) =>
+        trigger.addEventListener("click", toggleModal)
+    );
+    function toggleModal() {
+        modalContainer.classList.toggle("active");
+    }
+
+    function worksModalFunction(works) {
+        const worksModal = document.querySelector(".worksModal"); //je récupère le div avec mes projets dans la modal
+        for (let workImage of works) {
+            //une boucle pour générer mes images
+            const divImg = document.createElement("div"); //je crée une div pour chacune des img
+            divImg.classList.add("projet_modal"); //une class pour chacune des div
+            const img = document.createElement("img"); // création balise img
+            img.src = workImage.imageUrl;
+            divImg.appendChild(img);
+            worksModal.appendChild(divImg);
+            const iconeDelete = document.createElement("div");
+            iconeDelete.classList.add("icon_delete");
+            iconeDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+            divImg.appendChild(iconeDelete);
+        }
+    }
+
+   /* const buttonDelete = document.querySelectorAll(".icone_delete"); //suppression des projets
+    buttonDelete.addEventListener("click", async function (event) {
+        event.preventDefault();
+    });*/
 }
