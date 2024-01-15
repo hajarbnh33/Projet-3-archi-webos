@@ -17,12 +17,14 @@ function displayWorks(works) {
     //parcourir le tableau
     for (let work of works) {
         // pour chaque work créer le HTML en JS
+        console.log(work);
         const figure = document.createElement("figure");
         figure.classList.add("projet");
         //on ajoute en dataset l'id de la catégorie
-        figure.dataset.categoryId = work.category.id
+        figure.dataset.categoryId = work.category.id; // on récupère la categorie de l'id de chaque catégorie + on ajoute une dataset
         const img = document.createElement("img");
-        img.src = work.imageUrl;
+        //img.src = work.imageUrl;
+        img.src = "https://placehold.co/600x800";
         img.alt = work.title;
         figure.appendChild(img);
         const figcaption = document.createElement("figcaption");
@@ -52,7 +54,7 @@ function displayFilters(filters) {
         const containerButton = document.querySelector("button");
         button.classList.add("filtres");
         //j'ajoute en dataset id de la catégorie
-        button.dataset.id = filter.id
+        button.dataset.id = filter.id; //j'ajoute dataset à tous mes boutons et je récupère l'id directement
         //j'ajoute le texte dans mes filtres
         button.innerText = filter.name; // j'ajoute le nom de mes catégories dynamiquement
     }
@@ -61,22 +63,61 @@ function displayFilters(filters) {
         //parcours les élements du tableau button pour y appliquer la fonction
         btn.addEventListener("click", function () {
             const works = document.querySelectorAll(".projet"); //on récupère les élements ayant la class "projet"
-            const selectedCategoryId = btn.dataset.id
+            const selectedCategoryId = btn.dataset.id;
             works.forEach((work) => {
                 //pour chacun de ces elements on lui applique la class none (voir css)
                 work.classList.add("none"); //images masquées
                 //on determine si on doit afficher ou pas le projet
-                const workCategoryId = work.dataset.categoryId
+                const workCategoryId = work.dataset.categoryId;
                 const visible =
-                    selectedCategoryId === undefined // le bouton tous on affiche
-                    || selectedCategoryId === workCategoryId // la catégorie correspondante
-                if(visible){
-                    work.classList.remove("none")
-                }else{
-                    work.classList.add("none")
+                    selectedCategoryId === undefined || // le bouton tous on affiche
+                    selectedCategoryId === workCategoryId; // la catégorie correspondante
+                if (visible) {
+                    work.classList.remove("none"); // on supprime none si le btn selectionné est undefined ou si on selectionne le btn correspondant à la catégorie
+                } else {
+                    work.classList.add("none");
                 }
             });
-
         });
+    });
+}
+
+// Verifier si l'utilisateur est connecté : si token est stocké
+
+/*if(navigator.onLine = true){
+   
+}*/
+
+const token = localStorage.getItem("token"); //recupère token stocké dans localstorage
+
+if (token) {
+    console.log("connecté");
+    const bandeau = document.querySelector(".bandeau");
+    bandeau.classList.remove("cache"); // je supprime la class cache pour faire disparaître le bandeau quand non connecté
+    const logout = document.querySelector(".logout");
+    logout.textContent = "logout"; //je crée mon lien de déconnexion
+    logout.addEventListener("click", function () {
+        // function qui permet de supprimer du localstorage mon token
+        window.localStorage.removeItem("info");
+    });
+    const buttonEdition = document.querySelector(".buttonEdition");
+    buttonEdition.classList.remove("cache");
+
+    const icon = document.querySelector(".fa-regular");
+    icon.classList.remove("cache");
+
+    const element = document.createElement("p");
+    element.textContent = "Mode édition";
+    buttonEdition.appendChild(element);
+
+    const buttonFilter = document.querySelector(".buttonFilter");
+    buttonFilter.classList.add("cache");
+
+    const buttonProjet = document.querySelector(".buttonProjet");
+    buttonProjet.classList.remove("cache");
+    //création boite dialogue
+    buttonProjet.addEventListener("click", function () {
+        const modalContainer = document.querySelector(".modalContainer");
+        modalContainer.classList.remove("cache");
     });
 }
