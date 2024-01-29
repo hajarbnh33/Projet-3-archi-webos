@@ -4,21 +4,26 @@
         displayWorks(works);
     });*/
 
+/***************************Fonction appel api*/
+
 async function init() {
     let response = await fetch("http://localhost:5678/api/works");
     let works = await response.json();
     displayWorks(works);
-    worksModalFunction(works);
+    worksModalFunction(works); //appel à la fonction permettant d'afficher projets dans la modal
 }
 init();
 
+//fonction pour récupérer les images depuis API
 function displayWorks(works) {
     // récupérer l'élément dans lequel mettre les works
     const container = document.querySelector(".gallery");
+    //efface le contenu actuel du conteneur
+    container.innerHTML = "";
     //parcourir le tableau
     for (let work of works) {
         // pour chaque work créer le HTML en JS
-        console.log(work);
+        //console.log(work);
         const figure = document.createElement("figure");
         figure.classList.add("projet");
         //on ajoute en dataset l'id de la catégorie
@@ -35,8 +40,7 @@ function displayWorks(works) {
     }
 }
 
-//J'appel API pour récupérer les catégories
-
+//Appel API pour récupérer les catégories
 async function initFilter() {
     let responseFilter = await fetch("http://localhost:5678/api/categories");
     let filters = await responseFilter.json();
@@ -44,8 +48,9 @@ async function initFilter() {
 }
 initFilter();
 
+//Fonction création des catégories
 function displayFilters(filters) {
-    const containerFilter = document.querySelector(".buttonFilter");
+    const containerFilter = document.querySelector(".button_filter");
     for (let filter of filters) {
         //je crée mes balises boutons
         const button = document.createElement("button");
@@ -80,70 +85,4 @@ function displayFilters(filters) {
             });
         });
     });
-}
-
-// Verifier si l'utilisateur est connecté : si token est stocké
-
-/*if(navigator.onLine = true){
-   
-}*/
-
-const token = localStorage.getItem("token"); //recupère token stocké dans localstorage
-
-if (token) {
-    console.log("connecté");
-    const bandeau = document.querySelector(".bandeau");
-    bandeau.classList.remove("cache"); // je supprime la class cache pour faire disparaître le bandeau quand non connecté
-    const logout = document.querySelector(".logout");
-    logout.textContent = "logout"; //je crée mon lien de déconnexion
-    logout.addEventListener("click", function () {
-        // function qui permet de supprimer du localstorage mon token
-        window.localStorage.removeItem("info");
-    });
-    const buttonEdition = document.querySelector(".buttonEdition");
-    buttonEdition.classList.remove("cache");
-
-    const icon = document.querySelector(".fa-regular");
-    icon.classList.remove("cache");
-
-    const buttonProjet = document.querySelector(".buttonProjet")
-    buttonProjet.classList.remove("cache")
-
-    const element = document.createElement("p");
-    element.textContent = "Mode édition";
-    buttonEdition.appendChild(element);
-
-    const buttonFilter = document.querySelector(".buttonFilter");
-    buttonFilter.classList.add("cache");
-
-    const modalContainer = document.querySelector(".modalContainer");
-    const modalTriggers = document.querySelectorAll(".modal-trigger");
-    modalTriggers.forEach((trigger) =>
-        trigger.addEventListener("click", toggleModal)
-    );
-    function toggleModal() {
-        modalContainer.classList.toggle("active");
-    }
-
-    function worksModalFunction(works) {
-        const worksModal = document.querySelector(".worksModal"); //je récupère le div avec mes projets dans la modal
-        for (let workImage of works) {
-            //une boucle pour générer mes images
-            const divImg = document.createElement("div"); //je crée une div pour chacune des img
-            divImg.classList.add("projet_modal"); //une class pour chacune des div
-            const img = document.createElement("img"); // création balise img
-            img.src = workImage.imageUrl;
-            divImg.appendChild(img);
-            worksModal.appendChild(divImg);
-            const iconeDelete = document.createElement("div");
-            iconeDelete.classList.add("icon_delete");
-            iconeDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-            divImg.appendChild(iconeDelete);
-        }
-    }
-
-   /* const buttonDelete = document.querySelectorAll(".icone_delete"); //suppression des projets
-    buttonDelete.addEventListener("click", async function (event) {
-        event.preventDefault();
-    });*/
 }

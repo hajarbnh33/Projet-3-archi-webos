@@ -19,25 +19,85 @@
     </head>
 
     <body>
-        <div class="bandeau cache">
-            <button class="buttonEdition cache">
-                <i class="fa-regular fa-pen-to-square cache"></i>
+        <div class="rod hidden">
+            <button class="button_edition hidden">
+                <i class="fa-regular fa-pen-to-square hidden"></i>
             </button>
         </div>
-        <div class="modalContainer">
-            <div class="overlay modal-trigger"></div>
-            <div class="modal">
-                <h3 class="titreGalery">Galerie photo</h3>
-                <div class="worksModal"></div>
-                <div class="closeBtn modal-trigger">
-                    <i class="fa-solid fa-xmark"></i>
+        <div id="modal_container" class="hidden">
+            <div class="overlay hidden"></div>
+            <div id="modal">
+                <div class="first_modal hidden">
+                    <h3 class="title_gallery">Galerie photo</h3>
+                    <div class="works_modal"></div>
+                    <div class="close_btn">
+                        <i class="fa-solid fa-xmark close_first_modal"></i>
+                    </div>
+                    <hr />
+                    <button class="button_add_photo">Ajouter une photo</button>
                 </div>
-                <hr />
-                <button>Ajouter une photo</button>
+                <div class="second_modal hidden">
+                    <h3 class="title_gallery">Ajout photo</h3>
+                    <div class="arrow_left">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </div>
+                    <div class="close_btn btn_close_modal">
+                        <i class="fa-solid fa-xmark close_second_modal"></i>
+                    </div>
+                    <form id="new_project_form" action="#">
+                        <div class="new_project">
+                            <div class="add_photo">
+                                <div id="preview_container">
+                                    <img
+                                        id="preview_image"
+                                        alt="preview image"
+                                    />
+                                </div>
+                                <div class="add_photo add_photo_content">
+                                    <i class="fa-regular fa-image"></i>
+                                    <label for="image" id="get_image">
+                                        <span class="add_image_btn"
+                                            >+ Ajouter une photo</span
+                                        >
+                                        <input
+                                            type="file"
+                                            name="image"
+                                            id="image"
+                                            accept="image/*"
+                                        />
+                                    </label>
+                                    <p>jpg, png: 4mo max</p>
+                                </div>
+                            </div>
+                            <div class="input_container">
+                                <label for="title">Titre</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    required
+                                />
+                            </div>
+                            <div class="input_container">
+                                <label for="category">Catégories</label>
+                                <select
+                                    class="select_new"
+                                    name="category"
+                                    id="category"
+                                    required
+                                ></select>
+                            </div>
+                            <hr />
+                            <button class="button_add_photo" id="validate_form">
+                                Valider
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
-        <div class="mainContainer">
+        <div class="main_container">
             <header>
                 <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
                 <nav>
@@ -45,9 +105,12 @@
                         <li>projets</li>
                         <li>contact</li>
                         <li>
-                            <a href="assets/index_log.html" class="logout">
-                                login
-                            </a>
+                            <a href="index_log.html" class="login"> login </a>
+                        </li>
+                        <li>
+                            <a href="index.html" class="logout hidden"
+                                >logout</a
+                            >
                         </li>
                         <li>
                             <img
@@ -86,17 +149,17 @@
                     </article>
                 </section>
                 <section id="portfolio">
-                    <div class="projetButton">
+                    <div class="project_button">
                         <h2>Mes Projets</h2>
-                        <div class="buttonProjet cache">
+                        <div class="button_project hidden">
                             <i
-                                class="fa-regular fa-pen-to-square modal-trigger"
+                                class="fa-regular fa-pen-to-square edit_button"
                             ></i>
                             <p>modifier</p>
                         </div>
                     </div>
 
-                    <div class="buttonFilter">
+                    <div class="button_filter">
                         <button class="filtres tous">Tous</button>
                     </div>
                     <div class="gallery"></div>
@@ -128,7 +191,9 @@
                     </ul>
                 </nav>
             </footer>
-            <script src="assets/js/app.js" defer></script>
         </div>
+
+        <script src="assets/js/app.js" defer></script>
+        <script src="assets/js/modal.js" defer></script>
     </body>
 </html>
