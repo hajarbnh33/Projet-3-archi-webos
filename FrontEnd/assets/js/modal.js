@@ -5,7 +5,7 @@ if (token) {
     logoutButton();
     createElementAdmin();
     deleteProject();
-    clickImage();
+    addImage();
     uploadImage();
     modal();
 }
@@ -43,9 +43,9 @@ function logoutButton() {
     });
 }
 
-//permet ouvrir modal bouton modifier
-
 function modal() {
+    //permet ouvrir modal bouton modifier
+
     const editButton = document.querySelector(".edit_button");
     const modalContainer = document.getElementById("modal_container");
     const firstModal = document.querySelector(".first_modal");
@@ -105,18 +105,13 @@ function worksModalFunction(works) {
     const worksModal = document.querySelector(".works_modal");
 
     for (let workProject of works) {
-        //une boucle pour générer mes images
         const projects = document.createElement("figure");
         projects.classList.add("project_modal");
-
         const img = document.createElement("img");
         img.classList.add("image_modal");
-
-        //ajout de l'id à chaque projet
         projects.dataset.id = workProject.id;
         img.src = workProject.imageUrl;
         img.alt = workProject.title;
-
         projects.appendChild(img);
         worksModal.appendChild(projects);
 
@@ -129,7 +124,6 @@ function worksModalFunction(works) {
 }
 
 //********************suppression projet suite au click de l'icone poubelle
-
 function deleteProject() {
     const modal = document.getElementById("modal");
 
@@ -137,6 +131,7 @@ function deleteProject() {
         const trashIcon = event.target.closest(".icon_delete");
 
         if (trashIcon) {
+            //event.stopPropagation();
             const projectModal = trashIcon.closest(".project_modal");
             const workId = projectModal.dataset.id;
             //lorsque l'utilisateur confirme on appel la fonction qui supprime le projet côté serveur
@@ -148,7 +143,6 @@ function deleteProject() {
 }
 
 //********************supression projet depuis api
-
 async function deleteProjectApi(workId) {
     try {
         const response = await fetch(
@@ -167,7 +161,7 @@ async function deleteProjectApi(workId) {
         }
 
         if (response.status === 204) {
-            console.log("projet supprimé");
+            console.log("projet supprimé !");
 
             const projectElementDelete = document.querySelector(
                 `[data-id="${workId}"]`
@@ -179,8 +173,9 @@ async function deleteProjectApi(workId) {
                 const container = document.querySelector(".works_modal");
                 //efface le conteneur des projets
                 container.innerHTML = "";
-                //mise à jour du conteneur
+                //mise à jour page accueil
                 init();
+                console.log("supprimé");
             }
         }
     } catch (error) {
@@ -188,10 +183,7 @@ async function deleteProjectApi(workId) {
     }
 }
 
-//*******************récupération de l'image depuis la deuxième modale
-
 //*****************fonction prévisualiser l'image
-
 function previewImage(e) {
     const input = e.target;
     const image = document.getElementById("preview_image");
@@ -202,26 +194,23 @@ function previewImage(e) {
 
     //verifier qu'une image a bien été selectionnée
     if (input.files && input.files[0]) {
-        //premier fichier selectionné
         const redear = new FileReader();
-        //RELIRE
         redear.onload = function (e) {
             image.src = e.target.result; //permet d'acceder aux données resultantes de la lecture du fichier
             previewContainer.style.display = "flex";
             addPhotoContent.classList.add("hidden");
         };
-        //RELIRE
         redear.readAsDataURL(input.files[0]); //permet de lire le contenu du fichier et renvoyer les données sous forme URL
     }
 }
 
-function clickImage() {
+//*****************écouteur évenement fichier image
+function addImage() {
     const inputImage = document.getElementById("image");
     inputImage.addEventListener("change", previewImage);
 }
 
 // fonction validation et vérification du formulaire
-
 function uploadImage() {
     const form = document.getElementById("new_project_form");
     const imageInput = document.getElementById("image");
@@ -259,6 +248,7 @@ function uploadImage() {
             submitButton.classList.add("enabled");
         } else {
             submitButton.classList.remove("enabled");
+            console.log("veuillez remplir les champs correctement !");
         }
     }
 
@@ -273,7 +263,7 @@ function uploadImage() {
             // Supprimez toutes les options actuelles de la liste déroulante
             categoryInput.innerHTML = "";
 
-            // Ajoutez une option vide par défaut (sélectionnez...)
+            //une catégorie vide
             const defaultOption = document.createElement("option");
             defaultOption.value = "";
             defaultOption.text = "Sélectionnez une catégorie...";
@@ -287,7 +277,7 @@ function uploadImage() {
                 categoryInput.appendChild(option);
             });
         } catch (error) {
-            console.error("erreur génération des catégories:", error);
+            console.error("erreur récupération des catégories:", error);
         }
         validateForm();
     }
@@ -298,13 +288,10 @@ function uploadImage() {
         event.preventDefault();
 
         if (!submitButton.disabled) {
-            //mettre la fonction requête
             submitForm();
-            //une fonction pour reinitialiser affichage de l'image et du formulaire
             form.reset();
             addPhotoContainer.classList.remove("hidden");
             previewContent.style.display = "none";
-            //réinitialiser le champs du fichier + source image
         }
     });
 
@@ -332,7 +319,7 @@ function uploadImage() {
 
             .then((data) => {
                 //gère les données JSON extraite de la réponse réussie
-                console.log("Photo ajouté avec succès ! :", data); //data= les infos sur l'image envoyée
+                console.log("Photo ajoutée avec succès ! :", data); //data= les infos sur l'image envoyée
 
                 //mise à jour de la page d'acceuil
                 const galleryContent = document.querySelector(".gallery");
@@ -340,6 +327,7 @@ function uploadImage() {
                 const imageFigure = document.createElement("img");
                 imageFigure.src = data.imageUrl;
                 imageFigure.alt = data.title;
+                figure.dataset.id = data.id;
                 const figcaption = document.createElement("figcaption");
                 figcaption.textContent = data.title;
                 figure.appendChild(imageFigure);
@@ -353,7 +341,7 @@ function uploadImage() {
                 const img = document.createElement("img");
                 img.classList.add("image_modal");
                 projectsContainer.classList.add("project_modal");
-
+                projectsContainer.dataset.id = data.id;
                 img.src = data.imageUrl;
                 img.alt = data.title;
                 projectsContainer.appendChild(img);
@@ -366,10 +354,21 @@ function uploadImage() {
                 secondModal.classList.add("hidden");*/
 
                 //bouton valider doit se désactiver
+                submitButton.classList.remove("enabled");
+
+                // suppression
+                const iconDeleteBtn = document.createElement("div");
+                iconDeleteBtn.classList.add("icon_delete");
+                iconDeleteBtn.innerHTML =
+                    '<i class="fa-solid fa-trash-can"></i>';
+                projectsContainer.appendChild(iconDeleteBtn);
+                iconDeleteBtn.addEventListener("click", function () {
+                    const workId = projectsContainer.dataset.id;
+                    deleteProjectApi(workId);
+                });
             })
 
             .catch((error) => {
-                //gère une éventuelle erreur lors de l'envoi de la requête
                 console.error("erreur: photo non envoyée :", error);
             });
     }

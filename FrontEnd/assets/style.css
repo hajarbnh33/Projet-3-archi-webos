@@ -128,10 +128,11 @@ table {
     border-spacing: 0;
 }
 /** end reset css**/
+
 .main_container {
     padding-left: 50px;
     padding-right: 50px;
-    max-width: 1440px;
+    max-width: 1140px;
     margin: auto;
     font-family: "Work Sans";
     font-size: 14px;
@@ -385,9 +386,13 @@ li a:hover {
 /*bandeau*/
 .rod {
     display: flex;
+    position: relative;
     justify-content: center;
     background-color: #000000;
     height: 50px;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 button .fa-regular {
@@ -444,17 +449,20 @@ button .fa-regular {
     background: #333333d3;
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
 }
 
 #modal {
     width: 630px;
     background: #fff;
-    position: absolute;
-    top: 70%;
+    position: fixed;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px;
     border-radius: 10px;
+    z-index: 2;
 }
 
 .first_modal {
@@ -510,14 +518,18 @@ button .fa-regular {
     gap: 10px;
     width: 462px;
     overflow: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
     padding-bottom: 20px;
+}
+
+::-webkit-scrollbar {
+    width: 0;
 }
 
 .project_modal img {
     height: 104px;
-    max-width: 80px;
-    padding-top: 10px;
-    z-index: 1;
+    width: 80px;
     padding: 0px;
 }
 
