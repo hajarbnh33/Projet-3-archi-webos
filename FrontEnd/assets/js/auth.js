@@ -10,24 +10,23 @@ formSubmit.addEventListener("submit", async function (event) {
         const response = await fetch(`http://localhost:5678/api/users/login`, {
             method: "POST",
             headers: {
-                Accept: "application/json", //client accepte reponse format json
-                "Content-Type": "application/json",//corp de la requête en json
+                Accept: "application/json",
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ //converti les infos identification en une chaîne json et assigne au corp de la requête
+            body: JSON.stringify({
                 email: emailInput.value,
                 password: passwordInput.value,
             }),
         });
 
         if (response.status !== 200) {
-            throw `Le mot de passe ou l'adresse mail est incorrect !`; //verification réponse serveur
+            throw `Le mot de passe ou l'adresse mail est incorrect !`;
         }
 
-        let user = await response.json(); //réponse de la requête JSON : token
-        //stockage dans sessionStorage
-        window.sessionStorage.setItem("token", user.token);  //stock token dans sessionstorage
-        window.location.href = "./index.html";//redirection
+        let user = await response.json();
+        window.sessionStorage.setItem("token", user.token); 
+        window.location.href = "./index.html";
     } catch (error) {
-        loginError.innerText = error;//si une erreur se produit
+        loginError.innerText = error; 
     }
 });
